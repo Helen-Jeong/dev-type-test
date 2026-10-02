@@ -261,21 +261,8 @@
   .btn-back:hover { opacity: .7; }
 
   .btn-next {
-    flex: 1;
-    padding: 12px;
-    background: var(--accent);
-    color: #fff;
-    border: none;
-    border-radius: 10px;
-    font-size: 15px;
-    font-weight: 700;
-    font-family: 'Noto Sans KR', system-ui, sans-serif;
-    cursor: pointer;
-    transition: opacity .15s;
-    opacity: .32;
-    pointer-events: none;
+    display: none;
   }
-  .btn-next.on { opacity: 1; pointer-events: auto; }
 
   /* ── RESULT ── */
   .res-hero {
@@ -445,7 +432,7 @@
     <div class="intro-top">
       <span class="badge">FULLSTACK @ DEV TYPE TEST</span>
       <h1 class="intro-title">나는 어떤 개발자일까? 🔍</h1>
-      <p class="intro-sub">15개의 질문으로 알아보는<br>나의 개발 성향 유형</p>
+      <p class="intro-sub">10개의 질문으로 알아보는<br>나의 개발 성향 유형</p>
       <div class="emoji-row">
         <span class="float-e">🐻</span>
         <span class="float-e">🐧</span>
@@ -487,7 +474,6 @@
 
     <div class="quiz-foot">
       <button class="btn-back" id="btn-back" onclick="prevQ()">← 이전</button>
-      <button class="btn-next" id="btn-next" onclick="nextQ()">다음 →</button>
     </div>
   </div>
 
@@ -533,109 +519,74 @@
 <script>
 const QS = [
   { q: "코딩 시작 전 나의 루틴은?", opts: [
-    { k:"A", t:"폴더 구조랑 파일명부터 다 정리하고 시작", tp:0 },
-    { k:"B", t:"README 초안부터 작성하고 시작", tp:1 },
-    { k:"C", t:"딱히 정해진 루틴 없이 그날 기분대로 시작", tp:2 },
+    { k:"A", t:"딱히 정해진 루틴 없이 그날 기분대로 시작", tp:2 },
+    { k:"B", t:"프론트/백 구조 머릿속으로 동시에 그려보고 시작", tp:4 },
+    { k:"C", t:"폴더 구조랑 파일명부터 다 정리하고 시작", tp:0 },
     { k:"D", t:"비슷한 프로젝트 레퍼런스 먼저 검색", tp:3 },
-    { k:"E", t:"프론트/백 구조 머릿속으로 동시에 그려보고 시작", tp:4 },
+    { k:"E", t:"README 초안부터 작성하고 시작", tp:1 },
   ]},
   { q: "에러가 발생했다. 나의 첫 반응은?", opts: [
-    { k:"A", t:"에러 메시지 처음부터 끝까지 정독", tp:0 },
-    { k:"B", t:"에러 로그 문서에 기록해두고 분석", tp:1 },
-    { k:"C", t:"일단 껐다 켜봄. 그래도 안 되면 그때 봄", tp:2 },
-    { k:"D", t:"바로 구글에 에러 메시지 복붙", tp:3 },
-    { k:"E", t:"콘솔창 열고 console.log 난사", tp:4 },
+    { k:"A", t:"바로 구글에 에러 메시지 복붙", tp:3 },
+    { k:"B", t:"에러 메시지 처음부터 끝까지 정독", tp:0 },
+    { k:"C", t:"콘솔창 열고 console.log 난사", tp:4 },
+    { k:"D", t:"일단 껐다 켜봄. 그래도 안 되면 그때 봄", tp:2 },
+    { k:"E", t:"에러 로그 문서에 기록해두고 분석", tp:1 },
   ]},
   { q: "팀 프로젝트에서 나는 주로?", opts: [
-    { k:"A", t:"전체 구조 설계하고 역할 분배", tp:0 },
+    { k:"A", t:"프론트도 백도 다 건드리며 돌아다님", tp:4 },
     { k:"B", t:"문서화, 회의록, 컨벤션 정리 담당", tp:1 },
-    { k:"C", t:"맡은 부분 내 방식대로 조용히 완성", tp:2 },
-    { k:"D", t:"막히면 레퍼런스 찾아서 팀에 공유", tp:3 },
-    { k:"E", t:"프론트도 백도 다 건드리며 돌아다님", tp:4 },
+    { k:"C", t:"막히면 레퍼런스 찾아서 팀에 공유", tp:3 },
+    { k:"D", t:"전체 구조 설계하고 역할 분배", tp:0 },
+    { k:"E", t:"맡은 부분 내 방식대로 조용히 완성", tp:2 },
   ]},
   { q: "커밋 메시지 스타일은?", opts: [
-    { k:"A", t:"feat: 로그인 기능 구현 — JWT 토큰 방식 적용", tp:0 },
-    { k:"B", t:"커밋 컨벤션 문서 만들어두고 팀원한테 공유", tp:1 },
-    { k:"C", t:"의미만 전달되면 OK. 형식은 크게 안 따짐", tp:2 },
-    { k:"D", t:"구글에서 컨벤션 찾아서 그대로 따라함", tp:3 },
-    { k:"E", t:"기능별로 잘게 쪼개서 여러 번 커밋", tp:4 },
+    { k:"A", t:"커밋 컨벤션 문서 만들어두고 팀원한테 공유", tp:1 },
+    { k:"B", t:"구글에서 컨벤션 찾아서 그대로 따라함", tp:3 },
+    { k:"C", t:"feat: 로그인 기능 구현 — JWT 토큰 방식 적용", tp:0 },
+    { k:"D", t:"기능별로 잘게 쪼개서 여러 번 커밋", tp:4 },
+    { k:"E", t:"의미만 전달되면 OK. 형식은 크게 안 따짐", tp:2 },
   ]},
   { q: "코드 리뷰를 받았는데 수정 사항이 10개다. 나는?", opts: [
-    { k:"A", t:"하나씩 다 고치고 왜 고쳤는지 답글 달기", tp:0 },
-    { k:"B", t:"고치면서 관련 문서도 같이 업데이트", tp:1 },
-    { k:"C", t:"핵심만 수정하고 나머지는 다음 PR에서", tp:2 },
+    { k:"A", t:"핵심만 수정하고 나머지는 다음 PR에서", tp:2 },
+    { k:"B", t:"수정하면서 다른 부분도 같이 리팩토링", tp:4 },
+    { k:"C", t:"고치면서 관련 문서도 같이 업데이트", tp:1 },
     { k:"D", t:"수정 방법 모르는 건 검색해서 해결", tp:3 },
-    { k:"E", t:"수정하면서 다른 부분도 같이 리팩토링", tp:4 },
-  ]},
-  { q: "변수명을 짓는 데 걸리는 시간은?", opts: [
-    { k:"A", t:"5분 이상. 의미 전달이 제일 중요", tp:0 },
-    { k:"B", t:"네이밍 컨벤션 문서 열어보고 결정", tp:1 },
-    { k:"C", t:"딱 생각나는 이름으로 바로 결정", tp:2 },
-    { k:"D", t:"검색해서 보편적으로 쓰는 이름 채택", tp:3 },
-    { k:"E", t:"프론트/백 일관성 맞춰서 결정", tp:4 },
+    { k:"E", t:"하나씩 다 고치고 왜 고쳤는지 답글 달기", tp:0 },
   ]},
   { q: "프로젝트 마감 하루 전 나의 상태는?", opts: [
-    { k:"A", t:"이미 다 끝내고 최종 점검 중", tp:0 },
-    { k:"B", t:"문서 마무리하며 최종 정리 중", tp:1 },
-    { k:"C", t:"핵심 기능은 됐으니 나머지는 내일 아침에", tp:2 },
+    { k:"A", t:"프론트 고치다 백 건드리다 다시 프론트", tp:4 },
+    { k:"B", t:"핵심 기능은 됐으니 나머지는 내일 아침에", tp:2 },
+    { k:"C", t:"이미 다 끝내고 최종 점검 중", tp:0 },
     { k:"D", t:"스택오버플로우 30탭 열어놓고 복붙 중", tp:3 },
-    { k:"E", t:"프론트 고치다 백 건드리다 다시 프론트", tp:4 },
+    { k:"E", t:"문서 마무리하며 최종 정리 중", tp:1 },
   ]},
   { q: "주석을 다는 나의 스타일은?", opts: [
-    { k:"A", t:"복잡한 로직에 이유까지 상세히", tp:0 },
+    { k:"A", t:"나중에 헷갈릴 것 같은 부분에만", tp:3 },
     { k:"B", t:"함수마다 JSDoc 형식으로 꼼꼼하게", tp:1 },
-    { k:"C", t:"내가 나중에 알아볼 수 있을 정도로만", tp:2 },
-    { k:"D", t:"나중에 헷갈릴 것 같은 부분에만", tp:3 },
-    { k:"E", t:"프론트/백 경계마다 역할 설명 주석", tp:4 },
-  ]},
-  { q: "막히는 부분이 생겼을 때 나는?", opts: [
-    { k:"A", t:"공식 문서부터 정독", tp:0 },
-    { k:"B", t:"에러 상황 기록하고 원인 분석", tp:1 },
-    { k:"C", t:"잠깐 환기하고 나서 다시 봄", tp:2 },
-    { k:"D", t:"유튜브 튜토리얼 검색", tp:3 },
-    { k:"E", t:"팀원한테 바로 공유하고 같이 해결", tp:4 },
+    { k:"C", t:"프론트/백 경계마다 역할 설명 주석", tp:4 },
+    { k:"D", t:"복잡한 로직에 이유까지 상세히", tp:0 },
+    { k:"E", t:"내가 나중에 알아볼 수 있을 정도로만", tp:2 },
   ]},
   { q: "내 코드를 남이 봤을 때 듣고 싶은 말은?", opts: [
-    { k:"A", t:'"완벽하다, 수정할 게 없다"', tp:0 },
-    { k:"B", t:'"읽기 너무 편하고 문서도 잘 돼 있다"', tp:1 },
-    { k:"C", t:'"오 돌아가네, 됐다"', tp:2 },
-    { k:"D", t:'"이거 어디서 찾았어? 나도 알려줘"', tp:3 },
-    { k:"E", t:'"이걸 혼자 다 했어?"', tp:4 },
+    { k:"A", t:'"이걸 혼자 다 했어?"', tp:4 },
+    { k:"B", t:'"오 돌아가네, 됐다"', tp:2 },
+    { k:"C", t:'"이거 어디서 찾았어? 나도 알려줘"', tp:3 },
+    { k:"D", t:'"완벽하다, 수정할 게 없다"', tp:0 },
+    { k:"E", t:'"읽기 너무 편하고 문서도 잘 돼 있다"', tp:1 },
   ]},
   { q: "새로운 기술 스택을 배울 때 나는?", opts: [
-    { k:"A", t:"공식 문서 처음부터 끝까지 읽기", tp:0 },
-    { k:"B", t:"학습 내용 노션에 정리하면서 공부", tp:1 },
-    { k:"C", t:"일단 뭔가 만들어보면서 익히기", tp:2 },
-    { k:"D", t:"유튜브 튜토리얼 따라하면서 감 잡기", tp:3 },
-    { k:"E", t:"기존 스택이랑 연결해서 빠르게 확장", tp:4 },
+    { k:"A", t:"일단 뭔가 만들어보면서 익히기", tp:2 },
+    { k:"B", t:"유튜브 튜토리얼 따라하면서 감 잡기", tp:3 },
+    { k:"C", t:"기존 스택이랑 연결해서 빠르게 확장", tp:4 },
+    { k:"D", t:"학습 내용 노션에 정리하면서 공부", tp:1 },
+    { k:"E", t:"공식 문서 처음부터 끝까지 읽기", tp:0 },
   ]},
   { q: "코드가 돌아가긴 하는데 왜 되는지 모르겠다. 나는?", opts: [
-    { k:"A", t:"이해할 때까지 파고듦. 모르고 넘어가면 찝찝", tp:0 },
-    { k:"B", t:'"왜 되는지 모름" 주석 남기고 나중에 정리', tp:1 },
-    { k:"C", t:"일단 넘어감. 나중에 또 마주치면 그때 이해하면 됨", tp:2 },
-    { k:"D", t:"스택오버플로우에 질문 올림", tp:3 },
-    { k:"E", t:"팀원이랑 같이 뜯어보며 해결", tp:4 },
-  ]},
-  { q: '팀원이 "이 코드 어떻게 동작해?" 물어봤을 때?', opts: [
-    { k:"A", t:"처음부터 끝까지 차근차근 설명", tp:0 },
-    { k:"B", t:"문서 링크 공유", tp:1 },
-    { k:"C", t:"직접 실행해보라고 함", tp:2 },
-    { k:"D", t:"관련 레퍼런스 찾아서 같이 봄", tp:3 },
-    { k:"E", t:"같이 뜯어보면서 나도 다시 파악", tp:4 },
-  ]},
-  { q: "리팩토링 vs 새로 짜기, 나의 선택은?", opts: [
-    { k:"A", t:"리팩토링. 완벽하게 고쳐야 직성 풀림", tp:0 },
-    { k:"B", t:"리팩토링 후 변경 사항 문서에 기록", tp:1 },
-    { k:"C", t:"지금 당장 문제없으면 건드리지 않음", tp:2 },
-    { k:"D", t:"레퍼런스 찾아보고 더 나은 방향으로 결정", tp:3 },
-    { k:"E", t:"새로 짜면서 구조 전체 개선", tp:4 },
-  ]},
-  { q: "개발 공부할 때 나는?", opts: [
-    { k:"A", t:"개념 완벽히 이해하고 다음 단계로", tp:0 },
-    { k:"B", t:"배운 내용 정리하며 TIL 작성", tp:1 },
-    { k:"C", t:"관심 생기는 것부터 자유롭게", tp:2 },
-    { k:"D", t:"강의 들으면서 따라 치기", tp:3 },
-    { k:"E", t:"작은 사이드 프로젝트 바로 시작", tp:4 },
+    { k:"A", t:'"왜 되는지 모름" 주석 남기고 나중에 정리', tp:1 },
+    { k:"B", t:"팀원이랑 같이 뜯어보며 해결", tp:4 },
+    { k:"C", t:"스택오버플로우에 질문 올림", tp:3 },
+    { k:"D", t:"일단 넘어감. 나중에 또 마주치면 그때 이해하면 됨", tp:2 },
+    { k:"E", t:"이해할 때까지 파고듦. 모르고 넘어가면 찝찝", tp:0 },
   ]},
 ];
 
@@ -679,7 +630,8 @@ const TYPES = [
 
 const WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbwOWpZKvS7JaJCufv9GEGgK1Gm34jpy4SAfzRA5bc-uhyeWnx4dL7hxn8OrvtY5xjb2Vg/exec';
 
-let curQ = 0, answers = new Array(15).fill(null), userName = "", userKisu = "";
+const TOTAL = 10;
+let curQ = 0, answers = new Array(TOTAL).fill(null), userName = "", userKisu = "";
 
 function show(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
@@ -694,15 +646,15 @@ function startQuiz() {
   if (!kisu || !name) { err.classList.add('show'); return; }
   err.classList.remove('show');
   userKisu = kisu; userName = name;
-  curQ = 0; answers = new Array(15).fill(null);
+  curQ = 0; answers = new Array(TOTAL).fill(null);
   show('sc-quiz');
   renderQ();
 }
 
 function renderQ() {
   const q = QS[curQ];
-  document.getElementById('prog-count').textContent = `${curQ+1} / 15`;
-  document.getElementById('prog-fill').style.width = `${(curQ/15)*100}%`;
+  document.getElementById('prog-count').textContent = `${curQ+1} / ${TOTAL}`;
+  document.getElementById('prog-fill').style.width = `${(curQ/TOTAL)*100}%`;
   document.getElementById('q-eyebrow').textContent = `Q.${String(curQ+1).padStart(2,'0')}`;
   document.getElementById('q-text').textContent = q.q;
 
@@ -716,26 +668,17 @@ function renderQ() {
     list.appendChild(btn);
   });
 
-  const nxt = document.getElementById('btn-next');
-  const hasAns = answers[curQ] !== null;
-  nxt.classList.toggle('on', hasAns);
-  nxt.textContent = curQ === 14 ? '결과 보기 →' : '다음 →';
-
   document.getElementById('btn-back').style.visibility = curQ === 0 ? 'hidden' : 'visible';
 }
 
 function pick(i) {
   answers[curQ] = i;
   document.querySelectorAll('.opt').forEach((b, idx) => b.classList.toggle('sel', idx === i));
-  const nxt = document.getElementById('btn-next');
-  nxt.classList.add('on');
-  nxt.textContent = curQ === 14 ? '결과 보기 →' : '다음 →';
-}
-
-function nextQ() {
-  if (answers[curQ] === null) return;
-  if (curQ < 14) { curQ++; renderQ(); }
-  else showResult();
+  // 잠깐 선택 표시 후 자동 이동
+  setTimeout(() => {
+    if (curQ < TOTAL - 1) { curQ++; renderQ(); }
+    else showResult();
+  }, 320);
 }
 
 function prevQ() {
@@ -763,7 +706,7 @@ function showResult() {
   document.getElementById('res-compat-text').textContent = t.compatText;
 
   document.getElementById('share-text').textContent =
-    `// 풀스택 개발자 성향 테스트 결과\n나는 ${t.emoji} ${t.name}!\n${userKisu}기 ${userName}\n\n"${t.traits.join(' · ')}"\n#풀스택 #개발자성향테스트`;
+    `// 풀스택 개발자 성향 테스트 결과\n나는 ${t.emoji} ${t.name}!\n${userKisu}기 ${userName}\n\n"${t.traits.join(' · ')}"\n\n잘 맞는 유형: ${t.compatIcon} ${t.compatText}\n\n#풀스택 #개발자성향테스트`;
 
   show('sc-result');
   submitResult(t);
