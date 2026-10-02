@@ -421,6 +421,22 @@
     transition: opacity .15s;
   }
   .btn-retry:hover { opacity: .65; }
+
+  /* ── SUBMIT STATUS ── */
+  .sub-status {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    text-align: center;
+    padding: 10px 16px;
+    border-radius: 10px;
+    margin-bottom: 12px;
+    display: none;
+    letter-spacing: .3px;
+  }
+  .sub-status.show { display: block; }
+  .sub-status.sending { color: var(--fg-sub); background: var(--surface2); border: 1px solid var(--border); }
+  .sub-status.ok   { color: #3FB950; background: rgba(63,185,80,.1); border: 1px solid rgba(63,185,80,.3); }
+  .sub-status.fail  { color: #F85149; background: rgba(248,81,73,.1); border: 1px solid rgba(248,81,73,.3); }
 </style>
 
 <div class="wrap">
@@ -501,6 +517,8 @@
         </div>
       </div>
     </div>
+
+    <div id="sub-status" class="sub-status"></div>
 
     <div class="share-box">
       <p class="sec-label">// SHARE</p>
@@ -659,6 +677,8 @@ const TYPES = [
   },
 ];
 
+const WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbwOWpZKvS7JaJCufv9GEGgK1Gm34jpy4SAfzRA5bc-uhyeWnx4dL7hxn8OrvtY5xjb2Vg/exec';
+
 let curQ = 0, answers = new Array(15).fill(null), userName = "", userKisu = "";
 
 function show(id) {
@@ -746,6 +766,28 @@ function showResult() {
     `// 풀스택 개발자 성향 테스트 결과\n나는 ${t.emoji} ${t.name}!\n${userKisu}기 ${userName}\n\n"${t.traits.join(' · ')}"\n#풀스택 #개발자성향테스트`;
 
   show('sc-result');
+  submitResult(t);
+}
+
+function submitResult(t) {
+  const el = document.getElementById('sub-status');
+  el.className = 'sub-status show sending';
+  el.textContent = '⏳ 결과 저장 중...';
+
+  fetch(WEBHOOK_URL, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'text/plain' },
+    body: JSON.stringify({ kisu: userKisu, name: userName, typeEmoji: t.emoji, typeName: t.name })
+  })
+  .then(() => {
+    el.className = 'sub-status show ok';
+    el.textContent = '✅ 결과가 시트에 저장됐어요!';
+  })
+  .catch(() => {
+    el.className = 'sub-status show fail';
+    el.textContent = '⚠️ 저장 실패 (결과는 확인 가능해요)';
+  });
 }
 
 function copyResult() {
