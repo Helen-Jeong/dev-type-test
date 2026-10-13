@@ -260,9 +260,7 @@
   }
   .btn-back:hover { opacity: .7; }
 
-  .btn-next {
-    display: none;
-  }
+  .btn-next { display: none; }
 
   /* ── RESULT ── */
   .res-hero {
@@ -278,12 +276,26 @@
     font-size: 80px;
     display: block;
     margin-bottom: 16px;
-    animation: popIn .55s cubic-bezier(.34,1.56,.64,1) both;
   }
+
   @keyframes popIn {
     from { transform: scale(.2); opacity: 0; }
     to   { transform: scale(1);  opacity: 1; }
   }
+
+  /* 동물별 결과 이모지 애니메이션 */
+  .anim-bear    { animation: popIn .55s cubic-bezier(.34,1.56,.64,1) both, bearSway 3.6s 1s ease-in-out infinite; }
+  .anim-penguin { animation: popIn .55s cubic-bezier(.34,1.56,.64,1) both, penguinWaddle 2.2s 1s ease-in-out infinite; }
+  .anim-cat     { animation: popIn .55s cubic-bezier(.34,1.56,.64,1) both, catStretch 3s 1s ease-in-out infinite; }
+  .anim-fox     { animation: popIn .55s cubic-bezier(.34,1.56,.64,1) both, foxDart 2.8s 1s ease-in-out infinite; }
+  .anim-octopus { animation: popIn .55s cubic-bezier(.34,1.56,.64,1) both, octopusWave 2.4s 1s ease-in-out infinite; }
+
+  @keyframes bearSway    { 0%,100%{transform:rotate(0)} 25%{transform:rotate(-5deg)} 75%{transform:rotate(5deg)} }
+  @keyframes penguinWaddle { 0%,100%{transform:translateX(0) rotate(0)} 25%{transform:translateX(-5px) rotate(-4deg)} 75%{transform:translateX(5px) rotate(4deg)} }
+  @keyframes catStretch  { 0%,100%{transform:scaleX(1) translateY(0)} 30%{transform:scaleX(1.07) translateY(-3px)} 70%{transform:scaleX(.95) translateY(2px)} }
+  @keyframes foxDart     { 0%,100%{transform:translateX(0)} 15%{transform:translateX(-9px)} 30%{transform:translateX(0)} 60%{transform:translateX(6px)} 75%{transform:translateX(0)} }
+  @keyframes octopusWave { 0%,100%{transform:translateY(0) rotate(0)} 30%{transform:translateY(-8px) rotate(-4deg)} 65%{transform:translateY(-5px) rotate(4deg)} }
+
   @media (prefers-reduced-motion: reduce) { .res-big-emoji { animation: none; } }
 
   .res-who {
@@ -406,6 +418,7 @@
     font-family: 'Noto Sans KR', system-ui, sans-serif;
     cursor: pointer;
     transition: opacity .15s;
+    margin-bottom: 48px;
   }
   .btn-retry:hover { opacity: .65; }
 
@@ -461,7 +474,7 @@
     <div class="prog-area">
       <div class="prog-meta">
         <span class="prog-label">// PROGRESS</span>
-        <span class="prog-count" id="prog-count">1 / 15</span>
+        <span class="prog-count" id="prog-count">1 / 10</span>
       </div>
       <div class="prog-track">
         <div class="prog-fill" id="prog-fill" style="width:0%"></div>
@@ -594,41 +607,47 @@ const TYPES = [
   {
     emoji:"🐻", name:"완벽주의 곰", chip:"PERFECTIONIST",
     color:"#E8A838", colorBg:"rgba(232,168,56,.13)",
-    desc:"커밋 하나도 허투루 못 넘기는 타입이에요. 변수명 하나에 5분, 코드 한 줄에도 기꺼이 시간을 쏟습니다. 코드 퀄리티는 팀 최고지만 마감은 항상 아슬아슬해요. 그래도 나온 결과물은 언제나 믿음직스럽습니다. 🐻",
+    shortDesc:"코드 한 줄도 허투루 넘기지 못하는",
+    desc:"커밋 하나도 허투루 못 넘기는 타입이에요. 변수명 하나에 5분씩 고민하고, 함수 하나 짤 때도 예외 처리까지 완벽하게 챙깁니다. 코드 퀄리티는 팀 내 최고지만 마감은 항상 아슬아슬해요. 그래도 나온 결과물은 언제나 믿음직스럽고 리팩토링 없이도 오래가는 코드를 만들어냅니다. 🐻",
     traits:["꼼꼼함","높은 코드 품질","리팩토링 장인","완벽주의"],
     compatIcon:"🦊", compatText:"스택오버플로우 여우 — 여우가 빠르게 구현하면 곰이 완벽하게 다듬어줘요"
   },
   {
     emoji:"🐧", name:"문서화 펭귄", chip:"DOCUMENTER",
     color:"#4ECDC4", colorBg:"rgba(78,205,196,.13)",
-    desc:"README 없으면 불안한 타입이에요. 팀원들의 영원한 MVP. 코드보다 문서가 먼저 나오는 게 특기고, 미래의 팀원을 위해 오늘도 정성껏 기록합니다. 당신이 있는 팀은 항상 체계적입니다. 🐧",
+    shortDesc:"README 없이는 불안한 팀의 기록자",
+    desc:"README 없으면 불안한 타입이에요. 코드보다 문서가 먼저 나오는 게 특기고, 팀원들이 헤매지 않도록 컨벤션부터 API 명세까지 꼼꼼하게 정리합니다. 당신이 있는 팀은 항상 체계적이고, 미래의 팀원을 위한 배려가 코드 곳곳에 녹아있어요. 팀의 영원한 MVP입니다. 🐧",
     traits:["체계적","소통 중심","팀의 기록자","문서화 달인"],
     compatIcon:"🐙", compatText:"문어형 풀스택 — 문어가 다 건드린 걸 펭귄이 깔끔하게 정리해줘요"
   },
   {
     emoji:"🐱", name:"내 페이스 고양이", chip:"SELF-PACED",
     color:"#C778DD", colorBg:"rgba(199,120,221,.13)",
-    desc:"내 방식대로, 내 속도대로가 모토예요. 강요하면 도망가지만 혼자 두면 어느새 완성돼 있습니다. 독립적이고 자기 주도적이라 믿고 맡길 수 있는 타입이에요. 묵묵히 하지만 결과로 증명합니다. 🐱",
+    shortDesc:"내 방식대로 묵묵히 결과로 증명하는",
+    desc:"내 방식대로, 내 속도대로가 모토예요. 강요하면 도망가지만 혼자 두면 어느새 완성돼 있습니다. 독립적이고 자기 주도적이라 믿고 맡길 수 있는 타입이에요. 남들 다 막힐 때 혼자 조용히 해결하고, 말은 없어도 결과로 팀에 기여합니다. 🐱",
     traits:["독립적","자기 주도","유연함","자신만의 루틴"],
     compatIcon:"🐧", compatText:"문서화 펭귄 — 펭귄이 길을 만들면 고양이가 알아서 잘 걸어가요"
   },
   {
     emoji:"🦊", name:"스택오버플로우 여우", chip:"RESOURCEFUL",
     color:"#E06C75", colorBg:"rgba(224,108,117,.13)",
-    desc:"모르면 일단 검색, 찾으면 바로 적용. 구현 속도는 팀에서 항상 상위권이에요. 가끔 왜 되는지 모를 때도 있지만, 돌아가면 OK! 자료 찾는 능력과 응용력만큼은 아무도 못 따라옵니다. 🦊",
+    shortDesc:"모르면 바로 검색, 찾으면 즉시 적용하는",
+    desc:"모르면 일단 검색, 찾으면 바로 적용. 구현 속도는 팀에서 항상 상위권이에요. 가끔 왜 되는지 모를 때도 있지만 돌아가면 OK! 다양한 레퍼런스를 빠르게 조합해 문제를 해결하는 능력이 탁월하고, 팀이 막혔을 때 가장 빠르게 실마리를 찾아오는 타입이에요. 🦊",
     traits:["빠른 실행","자료 수집가","응용력","결과 중심"],
     compatIcon:"🐻", compatText:"완벽주의 곰 — 여우가 빠르게 구현하면 곰이 완벽하게 다듬어줘요"
   },
   {
     emoji:"🐙", name:"문어형 풀스택", chip:"FULL-STACK",
     color:"#61AFEF", colorBg:"rgba(97,175,239,.13)",
-    desc:"손이 8개라 프론트도 백도 다 건드리는 타입이에요. 전체 그림을 보는 눈이 있고 다양한 영역을 연결하는 게 특기입니다. 가끔 다 엉키기도 하지만, 팀에 한 명은 꼭 있어야 하는 소중한 존재예요. 🐙",
+    shortDesc:"프론트도 백도 다 건드리는 팔방미인",
+    desc:"손이 8개라 프론트도 백도 다 건드리는 타입이에요. 전체 그림을 보는 눈이 있고 어디가 막히면 어디를 건드려야 하는지 직관적으로 아는 게 특기입니다. 가끔 다 엉키기도 하지만 팀에 한 명은 꼭 있어야 하는 소중한 존재예요. 연결고리가 끊길 때 가장 빛을 발합니다. 🐙",
     traits:["넓은 시야","멀티태스킹","연결고리","풀스택 감각"],
-    compatIcon:"🐧", compatText:"문서화 펭귄 — 문어가 다 건드린 걸 펭귄이 깔끔하게 정리해줘요"
+    compatIcon:"🐱", compatText:"내 페이스 고양이 — 문어가 여기저기 손댈 때 고양이가 맡은 부분을 조용히 완성해줘요"
   },
 ];
 
 const WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbwOWpZKvS7JaJCufv9GEGgK1Gm34jpy4SAfzRA5bc-uhyeWnx4dL7hxn8OrvtY5xjb2Vg/exec';
+const ANIM_CLASS = ['anim-bear','anim-penguin','anim-cat','anim-fox','anim-octopus'];
 
 const TOTAL = 10;
 let curQ = 0, answers = new Array(TOTAL).fill(null), userName = "", userKisu = "";
@@ -674,7 +693,6 @@ function renderQ() {
 function pick(i) {
   answers[curQ] = i;
   document.querySelectorAll('.opt').forEach((b, idx) => b.classList.toggle('sel', idx === i));
-  // 잠깐 선택 표시 후 자동 이동
   setTimeout(() => {
     if (curQ < TOTAL - 1) { curQ++; renderQ(); }
     else showResult();
@@ -692,7 +710,10 @@ function showResult() {
   scores.forEach((s,i) => { if (s > scores[best]) best = i; });
   const t = TYPES[best];
 
-  document.getElementById('res-emoji').textContent = t.emoji;
+  const emojiEl = document.getElementById('res-emoji');
+  emojiEl.textContent = t.emoji;
+  emojiEl.className = 'res-big-emoji ' + (ANIM_CLASS[best] || '');
+
   document.getElementById('res-who').textContent = `${userKisu}기 · ${userName}`;
   document.getElementById('res-type-name').textContent = t.name;
 
@@ -706,7 +727,7 @@ function showResult() {
   document.getElementById('res-compat-text').textContent = t.compatText;
 
   document.getElementById('share-text').textContent =
-    `// 풀스택 개발자 성향 테스트 결과\n나는 ${t.emoji} ${t.name}!\n${userKisu}기 ${userName}\n\n"${t.traits.join(' · ')}"\n\n잘 맞는 유형: ${t.compatIcon} ${t.compatText}\n\n#풀스택 #개발자성향테스트`;
+    `// 풀스택 개발자 성향 테스트 결과\n${userKisu}기 ${userName}\n\n나는 ${t.emoji} ${t.name}! ${t.shortDesc} 유형이에요.\n\n잘 맞는 유형: ${t.compatIcon} ${t.compatText}\n\n#풀스택 #개발자성향테스트`;
 
   show('sc-result');
   submitResult(t);
