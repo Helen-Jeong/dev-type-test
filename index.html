@@ -1,38 +1,43 @@
 <title>풀스택 개발자 성향 테스트</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hahmlet:wght@600;700&family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;700&display=swap">
 <style>
-  /* Dark-first · centered card · max 560px */
   :root {
-    --bg: #0D1117;
-    --surface: #161B22;
-    --surface2: #21262D;
-    --border: #30363D;
-    --fg: #E6EDF3;
-    --fg-sub: #8B949E;
+    --bg: #0D1219;
+    --surface: #161C26;
+    --surface2: #1E2530;
+    --border: #2E3844;
+    --fg: #E4EAF5;
+    --fg-sub: #8E9DB5;
     --accent: #58A6FF;
     --accent-soft: rgba(88,166,255,.13);
+    --grid-dot: rgba(88,166,255,.03);
+    --err: #F85149;
     color-scheme: dark;
   }
   @media (prefers-color-scheme: light) {
     :root:not([data-theme="dark"]) {
-      --bg: #F6F8FA; --surface: #fff; --surface2: #F0F2F5;
-      --border: #D0D7DE; --fg: #1F2328; --fg-sub: #656D76;
-      --accent: #0969DA; --accent-soft: rgba(9,105,218,.08);
+      --bg: #F3F7FC; --surface: #fff; --surface2: #E8EEF6;
+      --border: #C8D5E8; --fg: #1A2535; --fg-sub: #5B6B82;
+      --accent: #1D6BCC; --accent-soft: rgba(29,107,204,.09);
+      --grid-dot: rgba(29,107,204,.04);
       color-scheme: light;
     }
   }
   :root[data-theme="light"] {
-    --bg: #F6F8FA; --surface: #fff; --surface2: #F0F2F5;
-    --border: #D0D7DE; --fg: #1F2328; --fg-sub: #656D76;
-    --accent: #0969DA; --accent-soft: rgba(9,105,218,.08);
+    --bg: #F3F7FC; --surface: #fff; --surface2: #E8EEF6;
+    --border: #C8D5E8; --fg: #1A2535; --fg-sub: #5B6B82;
+    --accent: #1D6BCC; --accent-soft: rgba(29,107,204,.09);
+    --grid-dot: rgba(29,107,204,.04);
     color-scheme: light;
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   body {
-    font-family: 'Noto Sans KR', system-ui, sans-serif;
-    background: var(--bg);
+    font-family: 'IBM Plex Sans KR', system-ui, sans-serif;
+    background-color: var(--bg);
+    background-image: radial-gradient(var(--grid-dot) 1px, transparent 1px);
+    background-size: 22px 22px;
     color: var(--fg);
     min-height: 100%;
     display: flex;
@@ -54,11 +59,9 @@
     padding: 28px;
   }
 
-  .mono { font-family: 'JetBrains Mono', monospace; }
-
   .badge {
     display: inline-block;
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'IBM Plex Mono', monospace;
     font-size: 11px;
     letter-spacing: .7px;
     color: var(--accent);
@@ -77,8 +80,8 @@
     border: none;
     border-radius: 10px;
     font-size: 15px;
-    font-weight: 700;
-    font-family: 'Noto Sans KR', system-ui, sans-serif;
+    font-weight: 600;
+    font-family: 'IBM Plex Sans KR', system-ui, sans-serif;
     cursor: pointer;
     transition: opacity .15s, transform .1s;
     margin-top: 4px;
@@ -90,9 +93,10 @@
   .intro-top { text-align: center; margin-bottom: 32px; }
 
   .intro-title {
-    font-size: 26px;
+    font-family: 'Hahmlet', serif;
+    font-size: 27px;
     font-weight: 700;
-    line-height: 1.4;
+    line-height: 1.45;
     margin-bottom: 10px;
     text-wrap: balance;
   }
@@ -129,7 +133,7 @@
 
   .field label {
     display: block;
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'IBM Plex Mono', monospace;
     font-size: 11px;
     letter-spacing: .6px;
     color: var(--fg-sub);
@@ -144,7 +148,7 @@
     border-radius: 10px;
     color: var(--fg);
     font-size: 15px;
-    font-family: 'Noto Sans KR', system-ui, sans-serif;
+    font-family: 'IBM Plex Sans KR', system-ui, sans-serif;
     outline: none;
     transition: border-color .2s;
     -webkit-appearance: none;
@@ -153,7 +157,7 @@
 
   .err-msg {
     font-size: 12px;
-    color: #F85149;
+    color: var(--err);
     margin-top: -10px;
     margin-bottom: 14px;
     display: none;
@@ -170,28 +174,33 @@
   }
 
   .prog-label, .prog-count {
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'IBM Plex Mono', monospace;
     font-size: 11px;
     color: var(--fg-sub);
     letter-spacing: .4px;
+    font-variant-numeric: tabular-nums;
   }
 
   .prog-track {
-    height: 3px;
-    background: var(--surface2);
-    border-radius: 3px;
+    position: relative;
+    height: 4px;
+    background-color: var(--surface2);
+    background-image: repeating-linear-gradient(
+      to right, var(--border) 0 1px, transparent 1px 10%
+    );
+    border-radius: 2px;
     overflow: hidden;
   }
 
   .prog-fill {
     height: 100%;
     background: var(--accent);
-    border-radius: 3px;
+    border-radius: 2px;
     transition: width .4s ease;
   }
 
   .q-eyebrow {
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'IBM Plex Mono', monospace;
     font-size: 11px;
     color: var(--accent);
     letter-spacing: .5px;
@@ -200,7 +209,7 @@
 
   .q-text {
     font-size: 19px;
-    font-weight: 700;
+    font-weight: 600;
     line-height: 1.55;
     margin-bottom: 22px;
     text-wrap: balance;
@@ -215,12 +224,12 @@
     padding: 13px 16px;
     background: var(--surface);
     border: 1.5px solid var(--border);
-    border-radius: 12px;
+    border-radius: 10px;
     cursor: pointer;
     transition: border-color .15s, background .15s;
     text-align: left;
     font-size: 14px;
-    font-family: 'Noto Sans KR', system-ui, sans-serif;
+    font-family: 'IBM Plex Sans KR', system-ui, sans-serif;
     color: var(--fg);
     line-height: 1.55;
     width: 100%;
@@ -229,14 +238,14 @@
   .opt.sel  { border-color: var(--accent); background: var(--accent-soft); }
 
   .opt-key {
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'IBM Plex Mono', monospace;
     font-size: 11px;
     color: var(--accent);
     background: var(--surface2);
-    border-radius: 6px;
+    border-radius: 4px;
     padding: 2px 7px;
     flex-shrink: 0;
-    font-weight: 600;
+    font-weight: 700;
     margin-top: 2px;
   }
 
@@ -253,71 +262,118 @@
     border-radius: 10px;
     color: var(--fg-sub);
     font-size: 14px;
-    font-family: 'Noto Sans KR', system-ui, sans-serif;
+    font-family: 'IBM Plex Sans KR', system-ui, sans-serif;
     cursor: pointer;
     flex-shrink: 0;
     transition: opacity .15s;
   }
   .btn-back:hover { opacity: .7; }
 
-  .btn-next { display: none; }
-
   /* ── RESULT ── */
   .res-hero {
     text-align: center;
     padding: 36px 24px 28px;
     background: var(--surface);
-    border: 1px solid var(--border);
+    border: 2px solid var(--border);
     border-radius: 16px;
     margin-bottom: 14px;
+    transition: border-color .5s, box-shadow .5s;
   }
 
   .res-big-emoji {
-    font-size: 80px;
+    font-size: 88px;
     display: block;
     margin-bottom: 16px;
+    transform-origin: center bottom;
   }
 
   @keyframes popIn {
-    from { transform: scale(.2); opacity: 0; }
-    to   { transform: scale(1);  opacity: 1; }
+    0%   { transform: scale(.1) rotate(-15deg); opacity: 0; }
+    60%  { transform: scale(1.18) rotate(6deg); opacity: 1; }
+    80%  { transform: scale(.93) rotate(-3deg); }
+    100% { transform: scale(1) rotate(0deg); opacity: 1; }
   }
 
-  /* 동물별 결과 이모지 애니메이션 */
-  .anim-bear    { animation: popIn .55s cubic-bezier(.34,1.56,.64,1) both, bearSway 3.6s 1s ease-in-out infinite; }
-  .anim-penguin { animation: popIn .55s cubic-bezier(.34,1.56,.64,1) both, penguinWaddle 2.2s 1s ease-in-out infinite; }
-  .anim-cat     { animation: popIn .55s cubic-bezier(.34,1.56,.64,1) both, catStretch 3s 1s ease-in-out infinite; }
-  .anim-fox     { animation: popIn .55s cubic-bezier(.34,1.56,.64,1) both, foxDart 2.8s 1s ease-in-out infinite; }
-  .anim-octopus { animation: popIn .55s cubic-bezier(.34,1.56,.64,1) both, octopusWave 2.4s 1s ease-in-out infinite; }
+  /* 동물별 결과 이모지 애니메이션 — more dynamic */
+  .anim-bear {
+    animation: popIn .65s cubic-bezier(.34,1.56,.64,1) both,
+               bearSway 2.8s 1s ease-in-out infinite;
+  }
+  .anim-penguin {
+    animation: popIn .65s cubic-bezier(.34,1.56,.64,1) both,
+               penguinWaddle 1.8s 1s ease-in-out infinite;
+  }
+  .anim-cat {
+    animation: popIn .65s cubic-bezier(.34,1.56,.64,1) both,
+               catStretch 2.6s 1s ease-in-out infinite;
+  }
+  .anim-fox {
+    animation: popIn .65s cubic-bezier(.34,1.56,.64,1) both,
+               foxDart 2.2s 1s ease-in-out infinite;
+  }
+  .anim-octopus {
+    animation: popIn .65s cubic-bezier(.34,1.56,.64,1) both,
+               octopusWave 2s 1s ease-in-out infinite;
+  }
 
-  @keyframes bearSway    { 0%,100%{transform:rotate(0)} 25%{transform:rotate(-5deg)} 75%{transform:rotate(5deg)} }
-  @keyframes penguinWaddle { 0%,100%{transform:translateX(0) rotate(0)} 25%{transform:translateX(-5px) rotate(-4deg)} 75%{transform:translateX(5px) rotate(4deg)} }
-  @keyframes catStretch  { 0%,100%{transform:scaleX(1) translateY(0)} 30%{transform:scaleX(1.07) translateY(-3px)} 70%{transform:scaleX(.95) translateY(2px)} }
-  @keyframes foxDart     { 0%,100%{transform:translateX(0)} 15%{transform:translateX(-9px)} 30%{transform:translateX(0)} 60%{transform:translateX(6px)} 75%{transform:translateX(0)} }
-  @keyframes octopusWave { 0%,100%{transform:translateY(0) rotate(0)} 30%{transform:translateY(-8px) rotate(-4deg)} 65%{transform:translateY(-5px) rotate(4deg)} }
+  @keyframes bearSway {
+    0%,100% { transform: rotate(0) scale(1); }
+    20%     { transform: rotate(-9deg) scale(1.05); }
+    50%     { transform: rotate(8deg) scale(.97); }
+    75%     { transform: rotate(-5deg) scale(1.02); }
+  }
+  @keyframes penguinWaddle {
+    0%,100% { transform: translateX(0) rotate(0); }
+    20%     { transform: translateX(-10px) rotate(-8deg); }
+    50%     { transform: translateX(10px) rotate(8deg); }
+    75%     { transform: translateX(-5px) rotate(-4deg); }
+  }
+  @keyframes catStretch {
+    0%,100% { transform: scaleX(1) scaleY(1) translateY(0); }
+    25%     { transform: scaleX(1.14) scaleY(.88) translateY(4px); }
+    55%     { transform: scaleX(.88) scaleY(1.14) translateY(-7px); }
+    80%     { transform: scaleX(1.06) scaleY(.96) translateY(2px); }
+  }
+  @keyframes foxDart {
+    0%,100% { transform: translateX(0) rotate(0); }
+    12%     { transform: translateX(-14px) rotate(-5deg); }
+    25%     { transform: translateX(0) rotate(0); }
+    55%     { transform: translateX(12px) rotate(4deg); }
+    72%     { transform: translateX(-6px) rotate(-2deg); }
+    85%     { transform: translateX(0) rotate(0); }
+  }
+  @keyframes octopusWave {
+    0%,100% { transform: translateY(0) rotate(0) scale(1); }
+    20%     { transform: translateY(-12px) rotate(-7deg) scale(1.06); }
+    50%     { transform: translateY(-7px) rotate(7deg) scale(.96); }
+    75%     { transform: translateY(-10px) rotate(-4deg) scale(1.03); }
+  }
 
-  @media (prefers-reduced-motion: reduce) { .res-big-emoji { animation: none; } }
+  @media (prefers-reduced-motion: reduce) {
+    .res-big-emoji { animation: none !important; }
+  }
 
   .res-who {
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'IBM Plex Mono', monospace;
     font-size: 12px;
     color: var(--fg-sub);
     margin-bottom: 6px;
   }
 
   .res-type-name {
-    font-size: 25px;
+    font-family: 'Hahmlet', serif;
+    font-size: 26px;
     font-weight: 700;
     margin-bottom: 12px;
   }
 
   .res-chip {
     display: inline-block;
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'IBM Plex Mono', monospace;
     font-size: 11px;
     padding: 4px 14px;
     border-radius: 999px;
-    font-weight: 600;
+    font-weight: 700;
     letter-spacing: .4px;
   }
 
@@ -333,7 +389,7 @@
   }
 
   .sec-label {
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'IBM Plex Mono', monospace;
     font-size: 10px;
     color: var(--fg-sub);
     letter-spacing: .9px;
@@ -376,16 +432,34 @@
 
   .compat-icon { font-size: 24px; flex-shrink: 0; }
 
+  /* ── SHARE — 아트보드 코너 장식 ── */
   .share-box {
+    position: relative;
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: 16px;
     padding: 22px;
     margin-bottom: 12px;
   }
+  .share-box::before {
+    content: "";
+    position: absolute; top: -1px; left: -1px;
+    width: 14px; height: 14px;
+    border-top: 2px solid var(--accent);
+    border-left: 2px solid var(--accent);
+    border-radius: 16px 0 0 0;
+  }
+  .share-box::after {
+    content: "";
+    position: absolute; bottom: -1px; right: -1px;
+    width: 14px; height: 14px;
+    border-bottom: 2px solid var(--accent);
+    border-right: 2px solid var(--accent);
+    border-radius: 0 0 16px 0;
+  }
 
   .share-text {
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'IBM Plex Mono', monospace;
     font-size: 12px;
     line-height: 1.8;
     color: var(--fg-sub);
@@ -401,7 +475,7 @@
     border-radius: 8px;
     color: var(--fg);
     font-size: 13px;
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'IBM Plex Mono', monospace;
     cursor: pointer;
     transition: opacity .15s;
   }
@@ -415,7 +489,7 @@
     border-radius: 10px;
     color: var(--fg-sub);
     font-size: 14px;
-    font-family: 'Noto Sans KR', system-ui, sans-serif;
+    font-family: 'IBM Plex Sans KR', system-ui, sans-serif;
     cursor: pointer;
     transition: opacity .15s;
     margin-bottom: 48px;
@@ -424,7 +498,7 @@
 
   /* ── SUBMIT STATUS ── */
   .sub-status {
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'IBM Plex Mono', monospace;
     font-size: 12px;
     text-align: center;
     padding: 10px 16px;
@@ -436,7 +510,7 @@
   .sub-status.show { display: block; }
   .sub-status.sending { color: var(--fg-sub); background: var(--surface2); border: 1px solid var(--border); }
   .sub-status.ok   { color: #3FB950; background: rgba(63,185,80,.1); border: 1px solid rgba(63,185,80,.3); }
-  .sub-status.fail  { color: #F85149; background: rgba(248,81,73,.1); border: 1px solid rgba(248,81,73,.3); }
+  .sub-status.fail  { color: var(--err); background: rgba(248,81,73,.1); border: 1px solid rgba(248,81,73,.3); }
 </style>
 
 <div class="wrap">
@@ -492,7 +566,7 @@
 
   <!-- RESULT -->
   <div id="sc-result" class="screen">
-    <div class="res-hero">
+    <div class="res-hero" id="res-hero">
       <span class="res-big-emoji" id="res-emoji"></span>
       <p class="res-who" id="res-who"></p>
       <h2 class="res-type-name" id="res-type-name"></h2>
@@ -535,15 +609,15 @@ const QS = [
     { k:"A", t:"딱히 정해진 루틴 없이 그날 기분대로 시작", tp:2 },
     { k:"B", t:"프론트/백 구조 머릿속으로 동시에 그려보고 시작", tp:4 },
     { k:"C", t:"폴더 구조랑 파일명부터 다 정리하고 시작", tp:0 },
-    { k:"D", t:"비슷한 프로젝트 레퍼런스 먼저 검색", tp:3 },
+    { k:"D", t:"비슷한 프로젝트 레퍼런스 먼저 검색하고 시작", tp:3 },
     { k:"E", t:"README 초안부터 작성하고 시작", tp:1 },
   ]},
-  { q: "에러가 발생했다. 나의 첫 반응은?", opts: [
-    { k:"A", t:"바로 구글에 에러 메시지 복붙", tp:3 },
-    { k:"B", t:"에러 메시지 처음부터 끝까지 정독", tp:0 },
-    { k:"C", t:"콘솔창 열고 console.log 난사", tp:4 },
-    { k:"D", t:"일단 껐다 켜봄. 그래도 안 되면 그때 봄", tp:2 },
-    { k:"E", t:"에러 로그 문서에 기록해두고 분석", tp:1 },
+  { q: "🚨 에러가 발생했다. 나의 첫 반응은?", opts: [
+    { k:"A", t:"바로 구글에 에러 메시지 복붙해야겠어", tp:3 },
+    { k:"B", t:"에러 메시지 처음부터 끝까지 정독해야겠어", tp:0 },
+    { k:"C", t:"콘솔창 열고 console.log 찍어봐야겠어", tp:4 },
+    { k:"D", t:"일단 껐다 켜봐야겠어", tp:2 },
+    { k:"E", t:"에러 로그 문서에 기록하고 분석해야겠어", tp:1 },
   ]},
   { q: "팀 프로젝트에서 나는 주로?", opts: [
     { k:"A", t:"프론트도 백도 다 건드리며 돌아다님", tp:4 },
@@ -553,53 +627,53 @@ const QS = [
     { k:"E", t:"맡은 부분 내 방식대로 조용히 완성", tp:2 },
   ]},
   { q: "커밋 메시지 스타일은?", opts: [
-    { k:"A", t:"커밋 컨벤션 문서 만들어두고 팀원한테 공유", tp:1 },
-    { k:"B", t:"구글에서 컨벤션 찾아서 그대로 따라함", tp:3 },
-    { k:"C", t:"feat: 로그인 기능 구현 — JWT 토큰 방식 적용", tp:0 },
-    { k:"D", t:"기능별로 잘게 쪼개서 여러 번 커밋", tp:4 },
-    { k:"E", t:"의미만 전달되면 OK. 형식은 크게 안 따짐", tp:2 },
+    { k:"A", t:"커밋 컨벤션 문서 만들어두고 팀원한테 공유하는 스타일", tp:1 },
+    { k:"B", t:"구글에서 컨벤션 찾아서 그대로 따라하는 스타일", tp:3 },
+    { k:"C", t:"feat: 로그인 구현 — 이유까지 꼼꼼히 적는 스타일", tp:0 },
+    { k:"D", t:"기능별로 잘게 쪼개서 여러 번 커밋하는 스타일", tp:4 },
+    { k:"E", t:"의미만 전달되면 OK, 형식은 크게 안 따지는 스타일", tp:2 },
   ]},
   { q: "코드 리뷰를 받았는데 수정 사항이 10개다. 나는?", opts: [
-    { k:"A", t:"핵심만 수정하고 나머지는 다음 PR에서", tp:2 },
-    { k:"B", t:"수정하면서 다른 부분도 같이 리팩토링", tp:4 },
-    { k:"C", t:"고치면서 관련 문서도 같이 업데이트", tp:1 },
-    { k:"D", t:"수정 방법 모르는 건 검색해서 해결", tp:3 },
-    { k:"E", t:"하나씩 다 고치고 왜 고쳤는지 답글 달기", tp:0 },
+    { k:"A", t:"핵심만 수정하고 나머지는 다음 PR에서. \"일단 급한 것만요\"", tp:2 },
+    { k:"B", t:"수정하면서 다른 부분도 같이 리팩토링. \"여기도 이상하던데 같이 고쳤어요\"", tp:4 },
+    { k:"C", t:"고치면서 관련 문서도 같이 업데이트. \"README도 반영했습니다\"", tp:1 },
+    { k:"D", t:"수정 방법 모르는 건 검색해서 해결. \"스택오버플로우에서 찾았어요\"", tp:3 },
+    { k:"E", t:"하나씩 다 고치고 왜 고쳤는지 답글 달기. \"이 부분은 ~해서 수정했습니다\"", tp:0 },
   ]},
-  { q: "프로젝트 마감 하루 전 나의 상태는?", opts: [
-    { k:"A", t:"프론트 고치다 백 건드리다 다시 프론트", tp:4 },
-    { k:"B", t:"핵심 기능은 됐으니 나머지는 내일 아침에", tp:2 },
-    { k:"C", t:"이미 다 끝내고 최종 점검 중", tp:0 },
-    { k:"D", t:"스택오버플로우 30탭 열어놓고 복붙 중", tp:3 },
-    { k:"E", t:"문서 마무리하며 최종 정리 중", tp:1 },
+  { q: "⏰ 프로젝트 마감 하루 전 나의 상태는?", opts: [
+    { k:"A", t:"😵‍💫 프론트 고치다가 백 건드리다가 다시 프론트... 정신없어", tp:4 },
+    { k:"B", t:"🛌 핵심 기능은 됐으니까 나머지는 내일 아침에 하면 되지 뭐", tp:2 },
+    { k:"C", t:"✅ 이미 다 끝냈고 지금 최종 점검 중", tp:0 },
+    { k:"D", t:"📑 스택오버플로우 탭 30개 열어놓고 복붙하는 중", tp:3 },
+    { k:"E", t:"📝 문서 마무리하면서 최종 정리 중", tp:1 },
   ]},
   { q: "주석을 다는 나의 스타일은?", opts: [
-    { k:"A", t:"나중에 헷갈릴 것 같은 부분에만", tp:3 },
-    { k:"B", t:"함수마다 JSDoc 형식으로 꼼꼼하게", tp:1 },
-    { k:"C", t:"프론트/백 경계마다 역할 설명 주석", tp:4 },
-    { k:"D", t:"복잡한 로직에 이유까지 상세히", tp:0 },
-    { k:"E", t:"내가 나중에 알아볼 수 있을 정도로만", tp:2 },
+    { k:"A", t:"나중에 헷갈릴 것 같은 부분에만. \"이 부분 왜 이렇게 했는지 나도 모름\"", tp:3 },
+    { k:"B", t:"함수마다 JSDoc 형식으로 꼼꼼하게. \"@param {string} userId - 유저 고유 ID\"", tp:1 },
+    { k:"C", t:"프론트/백 경계마다 역할 설명. \"// 여기서부터 API 호출 영역\"", tp:4 },
+    { k:"D", t:"복잡한 로직에 이유까지 상세히. \"// 소수점 오류 방지 위해 toFixed(2) 사용\"", tp:0 },
+    { k:"E", t:"내가 나중에 알아볼 수 있을 정도로만. \"// 여기 건드리지 말 것\"", tp:2 },
   ]},
-  { q: "내 코드를 남이 봤을 때 듣고 싶은 말은?", opts: [
-    { k:"A", t:'"이걸 혼자 다 했어?"', tp:4 },
-    { k:"B", t:'"오 돌아가네, 됐다"', tp:2 },
-    { k:"C", t:'"이거 어디서 찾았어? 나도 알려줘"', tp:3 },
-    { k:"D", t:'"완벽하다, 수정할 게 없다"', tp:0 },
-    { k:"E", t:'"읽기 너무 편하고 문서도 잘 돼 있다"', tp:1 },
+  { q: "💬 내 코드를 남이 봤을 때 듣고 싶은 말은?", opts: [
+    { k:"A", t:"\"이걸 혼자 다 했어? 진짜?\" — 혼자 다 해냈다는 걸 알아줬으면", tp:4 },
+    { k:"B", t:"\"오 돌아가네, 됐다\" — 일단 작동하면 그걸로 충분해", tp:2 },
+    { k:"C", t:"\"이거 어디서 찾았어? 나도 알려줘\" — 좋은 레퍼런스 찾아오는 능력 인정받고 싶어", tp:3 },
+    { k:"D", t:"\"완벽하다, 수정할 게 없다\" — 코드 퀄리티 자체로 인정받고 싶어", tp:0 },
+    { k:"E", t:"\"읽기 너무 편하고 문서도 잘 돼 있다\" — 팀원 배려하는 코드 스타일 인정받고 싶어", tp:1 },
   ]},
   { q: "새로운 기술 스택을 배울 때 나는?", opts: [
-    { k:"A", t:"일단 뭔가 만들어보면서 익히기", tp:2 },
-    { k:"B", t:"유튜브 튜토리얼 따라하면서 감 잡기", tp:3 },
-    { k:"C", t:"기존 스택이랑 연결해서 빠르게 확장", tp:4 },
-    { k:"D", t:"학습 내용 노션에 정리하면서 공부", tp:1 },
-    { k:"E", t:"공식 문서 처음부터 끝까지 읽기", tp:0 },
+    { k:"A", t:"일단 뭔가 만들어보면서 익히기. 오류 만나야 배운다고 생각해", tp:2 },
+    { k:"B", t:"유튜브 튜토리얼 따라하면서 감 잡기. 보면서 따라하면 금방 익혀", tp:3 },
+    { k:"C", t:"기존 스택이랑 연결해서 빠르게 확장. 비슷한 거 다 연결해서 쓰는 편", tp:4 },
+    { k:"D", t:"학습 내용 노션에 정리하면서 공부. 정리해야 내 것이 되는 타입", tp:1 },
+    { k:"E", t:"공식 문서 처음부터 끝까지 읽기. 기초부터 탄탄히 해야 한다고 생각해", tp:0 },
   ]},
-  { q: "코드가 돌아가긴 하는데 왜 되는지 모르겠다. 나는?", opts: [
-    { k:"A", t:'"왜 되는지 모름" 주석 남기고 나중에 정리', tp:1 },
-    { k:"B", t:"팀원이랑 같이 뜯어보며 해결", tp:4 },
-    { k:"C", t:"스택오버플로우에 질문 올림", tp:3 },
-    { k:"D", t:"일단 넘어감. 나중에 또 마주치면 그때 이해하면 됨", tp:2 },
-    { k:"E", t:"이해할 때까지 파고듦. 모르고 넘어가면 찝찝", tp:0 },
+  { q: "🤔 코드가 돌아가긴 하는데 왜 되는지 모르겠다. 나는?", opts: [
+    { k:"A", t:"\"왜 되는지 모름\" 주석 남기고 나중에 정리하는 편", tp:1 },
+    { k:"B", t:"팀원이랑 같이 뜯어보며 해결하는 편", tp:4 },
+    { k:"C", t:"스택오버플로우에 질문 올리는 편", tp:3 },
+    { k:"D", t:"일단 넘어가고 나중에 또 마주치면 그때 이해하는 편", tp:2 },
+    { k:"E", t:"이해할 때까지 파고드는 편. 모르고 넘어가면 찝찝해", tp:0 },
   ]},
 ];
 
@@ -713,6 +787,11 @@ function showResult() {
   const emojiEl = document.getElementById('res-emoji');
   emojiEl.textContent = t.emoji;
   emojiEl.className = 'res-big-emoji ' + (ANIM_CLASS[best] || '');
+
+  // 동물 색으로 결과 카드 테두리 변경
+  const heroEl = document.getElementById('res-hero');
+  heroEl.style.borderColor = t.color;
+  heroEl.style.boxShadow = `0 0 28px ${t.colorBg}, 0 0 6px ${t.colorBg}`;
 
   document.getElementById('res-who').textContent = `${userKisu}기 · ${userName}`;
   document.getElementById('res-type-name').textContent = t.name;
